@@ -3,6 +3,9 @@ description: 'a way to use kubectl'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+outputs:
+  status: # id of output
+    description: 'The status of the deployment'
 branding:
   icon: 'terminal'
   color: 'blue'

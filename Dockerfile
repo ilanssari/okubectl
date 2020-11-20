@@ -13,6 +13,7 @@ LABEL com.github.actions.color="blue"
 
 COPY LICENSE README.md /
 COPY entrypoint.sh /entrypoint.sh
+COPY check_cd.sh /check_cd.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["help"]
