@@ -1,5 +1,5 @@
-name: 'kubectl'
-description: 'The kubectl command line program as a GitHub Action'
+name: 'okubectl'
+description: 'a way to use kubectl'
 runs:
   using: 'docker'
   image: 'Dockerfile'
