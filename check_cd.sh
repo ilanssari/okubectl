@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/bash 
 
 #alias groot2="KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig"
 
