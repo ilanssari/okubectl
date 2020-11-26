@@ -1,12 +1,12 @@
 #!/bin/bash 
 
-iterations=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
 while [[ " $iterations " == "4" ]]
 do
   echo "Waiting the canary iterations to finish"
   sleep 10
-  iterations=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
-  errors=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.failedChecks})
+  iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+  errors=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.failedChecks})
   if [[ " $errors " != "0" ]]
   then
     #echo "::set-output name=status::$(echo failed)"
@@ -19,7 +19,7 @@ done
 #ok=false
 #until ${ok}; do
 #  echo "Waiting the Halt status"
-#  KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning | grep 'Halt' && ok=true || ok=false
+#  kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning | grep 'Halt' && ok=true || ok=false
 #  sleep 20
 #done
 
