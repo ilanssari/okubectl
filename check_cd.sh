@@ -1,33 +1,28 @@
 #!/bin/bash 
 
-#alias groot2="KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig"
-
-ok=false
-until ${ok}; do
-    kubectl get canary/odemo -n odemo | grep 'Progressing' && ok=true || ok=false
-    sleep 5
-done
-
-# wait for the canary analysis to finish
-#KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl wait canary/odemo --for=condition=promoted --timeout=5m -n odemo
-
-# check if the deployment was successful 
-#KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get canary/odemo -n odemo | grep Succeeded
-
-#KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get ns 
-
-status="other"
-array=["Failed","Succeeded"]
-#while [ "$status" != "Failed" ] && [ "$status" != "Succeeded" ]
-
-#You could do:
-
-while [[ " ${array[*]} " != *"$status"* ]]
+iterations=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+while [[ " $iterations " == "4" ]]
 do
-  echo "waiting for the canary to be stable"
+  echo "Waiting the canary iterations to finish"
   sleep 10
-  status=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.phase})
+  iterations=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+  errors=$(KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl -n odemo get canary/odemo -o jsonpath={.status.failedChecks})
+  if [[ " $errors " != "0" ]]
+  then
+    #echo "::set-output name=status::$(echo failed)"
+    exit 1
+  fi
 done
 
-echo "::set-output name=status::$(echo $status)"
+
+# hna khassek dir sort o dir akhir wahed hit i9dar ikoun chi warning 9dim 
+#ok=false
+#until ${ok}; do
+#  echo "Waiting the Halt status"
+#  KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning | grep 'Halt' && ok=true || ok=false
+#  sleep 20
+#done
+
+exit 0
+#echo "::set-output name=status::$(echo succeded)"
 
