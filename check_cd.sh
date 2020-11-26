@@ -26,27 +26,27 @@ done
 
 # waiting the halt message
 
-lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
-while [ -z "$lastTimestamp" ]
-do
-  sleep 10
-  lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
-done
-lastTimestampSec=$(date -d"$lastTimestamp" +%s)
-interval="360"
-
-while true
-do
-  echo "waiting the halt message"
-  minTime=$(( $lastTimestampSec + $interval ))
-  nowSec=$(date '+%s')
-  if [ $nowSec -lt $minTime ]
-  then
-    break
-  fi
-  sleep 10
-  lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
-  lastTimestampSec=$(date -d"$lastTimestamp" +%s)
-done
+#lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
+#while [ -z "$lastTimestamp" ]
+#do
+#  sleep 10
+#  lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
+#done
+#lastTimestampSec=$(date -d"$lastTimestamp" +%s)
+#interval="360"
+#
+#while true
+#do
+#  echo "waiting the halt message"
+#  minTime=$(( $lastTimestampSec + $interval ))
+#  nowSec=$(date '+%s')
+#  if [ $nowSec -lt $minTime ]
+#  then
+#    break
+#  fi
+#  sleep 10
+#  lastTimestamp=$(kubectl get events -n odemo --field-selector involvedObject.kind=Canary,involvedObject.name=odemo,type=Warning -o jsonpath='{.items[-1:].lastTimestamp}')
+#  lastTimestampSec=$(date -d"$lastTimestamp" +%s)
+#done
 
 exit 0
