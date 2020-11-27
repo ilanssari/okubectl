@@ -19,6 +19,7 @@ do
   if [ $errors -gt 0 ]
   then
     echo "the hook test failed !"
+    echo "::set-output name=status::$(echo failed)"
     exit 1
   fi
   iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
@@ -49,4 +50,5 @@ done
 #  lastTimestampSec=$(date -d"$lastTimestamp" +%s)
 #done
 
+echo "::set-output name=status::$(echo succeded)"
 exit 0
