@@ -25,7 +25,7 @@ array=["Failed","Succeeded"]
 while [[ " ${array[*]} " != *"$status"* ]]
 do
   echo "waiting for the canary to be stable"
-  sleep 10
+  sleep 5
   status=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.phase})
 done
 
