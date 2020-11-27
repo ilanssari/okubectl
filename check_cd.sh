@@ -11,7 +11,7 @@ done
 
 # counting the iterations
 
-while [ $iterations -lt 4 ]
+while [ $iterations -lt 2 ]
 do
   echo "Waiting the canary iterations to finish"
   sleep 10
