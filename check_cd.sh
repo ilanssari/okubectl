@@ -1,12 +1,12 @@
 #!/bin/bash 
 
-iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+iterations=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.iterations})
 
 while [ $iterations -gt 1 ]
 do
   echo "Waiting the Canary job to start"
   sleep 5
-  iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+  iterations=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.iterations})
 done
 
 # counting the iterations
@@ -15,14 +15,14 @@ while [ $iterations -lt 2 ]
 do
   echo "Waiting the canary iterations to finish"
   sleep 5
-  errors=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.failedChecks})
+  errors=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.failedChecks})
   if [ $errors -gt 0 ]
   then
     echo "the hook test failed !"
     echo "::set-output name=status::$(echo failed)"
     exit 1
   fi
-  iterations=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.iterations})
+  iterations=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.iterations})
 done
 
 # waiting the halt message
