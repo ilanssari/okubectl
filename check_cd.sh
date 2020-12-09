@@ -4,7 +4,7 @@
 
 ok=false
 until ${ok}; do
-    kubectl get canary/odemo -n odemo | grep 'Progressing' && ok=true || ok=false
+    kubectl get canary/$PROJECT_NAME -n $PROJECT_NAME | grep 'Progressing' && ok=true || ok=false
     sleep 5
 done
 
@@ -26,7 +26,7 @@ while [[ " ${array[*]} " != *"$status"* ]]
 do
   echo "waiting for the canary to be stable"
   sleep 5
-  status=$(kubectl -n odemo get canary/odemo -o jsonpath={.status.phase})
+  status=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.phase})
 done
 
 echo "::set-output name=status::$(echo $status)"
