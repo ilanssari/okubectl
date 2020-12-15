@@ -50,5 +50,5 @@ done
 #  lastTimestampSec=$(date -d"$lastTimestamp" +%s)
 #done
 
-echo "::set-output name=status::$(echo succeded)"
+echo "::set-output name=status::$(echo succeeded)"
 exit 0
