@@ -17,7 +17,7 @@ done
 #KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get ns 
 
 status="other"
-array=["Failed","Succeeded"]
+array=["failed","succeeded"]
 #while [ "$status" != "Failed" ] && [ "$status" != "Succeeded" ]
 
 #You could do:
