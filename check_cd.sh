@@ -17,7 +17,7 @@ done
 #KUBECONFIG=~/.verrazzano/ol/ol-managed-2/kubeconfig kubectl get ns 
 
 status="other"
-array=["failed","succeeded"]
+array=["Failed","Succeeded"]
 #while [ "$status" != "Failed" ] && [ "$status" != "Succeeded" ]
 
 #You could do:
@@ -29,5 +29,10 @@ do
   status=$(kubectl -n $PROJECT_NAME get canary/$PROJECT_NAME -o jsonpath={.status.phase})
 done
 
-echo "::set-output name=status::$(echo $status)"
+if [[ $status == "Failed" ]]
+then
+   echo "::set-output name=status::$(echo failed)"
+else
+   echo "::set-output name=status::$(echo succeeded)"
+fi
 
